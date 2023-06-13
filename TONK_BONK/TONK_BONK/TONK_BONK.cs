@@ -11,9 +11,19 @@ public class TONK_BONK : PhysicsGame
 {
     public override void Begin()
     {
-        // Kirjoita ohjelmakoodisi tähän
-
-        PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
+    //
+    Luokentta();
+    PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
     }
-}
+
+    void Luokentta()
+    {
+        PhysicsObject TONK = new PhysicsObject( 40, 20);
+     TONK.Shape = Shape.Triangle;
+     TONK.Color = Color.JungleGreen;
+     TONK.Position = new Vector(20, 20);
+     Add(TONK);
+    }
+        
+    }
