@@ -9,21 +9,40 @@ namespace TONK_BONK;
 
 public class TONK_BONK : PhysicsGame
 {
+    private PhysicsObject tonk;
+   private Vector TONK_position = new Vector(20, 20);
     public override void Begin()
-    {
-    //
-    Luokentta();
-    PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
-        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
+    { 
+        LuoTONK(); 
+        Luokentta();
+        AsetaNappeimet();
+        
     }
 
     void Luokentta()
+    {Level.BackgroundColor = Color.Gray;
+    
+    }
+
+    void LuoTONK()
     {
-        PhysicsObject TONK = new PhysicsObject( 40, 20);
-     TONK.Shape = Shape.Triangle;
-     TONK.Color = Color.JungleGreen;
-     TONK.Position = new Vector(20, 20);
-     Add(TONK);
+        tonk = new PhysicsObject( 40, 20);
+        tonk.Shape = Shape.Triangle;
+        tonk.Angle = Angle.FromDegrees(0.0); 
+        tonk.Color = Color.JungleGreen;
+        Add(tonk);
     }
-        
+
+    void AsetaNappeimet()
+    { 
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
+        Keyboard.Listen(Key.W, ButtonState.Down, Liiku, "Liikuta Tankki", 100.0);
+        Keyboard.Listen(Key.W, ButtonState.Released, Liiku, "Liikuta Tankki", 0.0 );
+
     }
+
+     void Liiku (double kerroin) 
+     {
+         tonk.Velocity = tonk.Angle.GetVector() * kerroin;
+     }
+}
