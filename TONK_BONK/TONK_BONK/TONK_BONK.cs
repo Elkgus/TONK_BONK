@@ -10,8 +10,10 @@ namespace TONK_BONK;
 public class TONK_BONK : PhysicsGame
 {
     public Image TonkRuumis = LoadImage("TONK_BONK_chassis3");
+    public Image tonkTorniKuva = LoadImage("TONK_torni2.png");
     private PhysicsObject tonk;
-    private Vector TONK_position = new Vector(20, 20);
+    private PhysicsObject tonkTorni;
+    private Vector TONK_position = new Vector(80, 40);
     public override void Begin()
     { 
         LuoTONK(); 
@@ -21,18 +23,29 @@ public class TONK_BONK : PhysicsGame
     }
 
     void Luokentta()
-    {Level.BackgroundColor = Color.Gray;
+    {Level.BackgroundColor = Color.Blue;
     
     }
 
     void LuoTONK()
     {
-        tonk = new PhysicsObject( 40, 20);
-        tonk.Shape = Shape.Triangle;
-        tonk.Angle = Angle.FromDegrees(0.0); 
-        tonk.Color = Color.JungleGreen;
+        tonk = new PhysicsObject( 160, 80);
+        tonk.Angle = Angle.FromDegrees(0.0);
         tonk.Image = TonkRuumis;
         Add(tonk);
+         
+        tonkTorni = new PhysicsObject(240, 60);
+        tonkTorni.Image = tonkTorniKuva;
+        Add(tonkTorni,1);
+        tonkTorni.IgnoresCollisionResponse = true;
+        //WheelJoint liitos = new WheelJoint(tonk, tonkTorni);
+        //Add(liitos);
+        //AxleJoint liitos = new AxleJoint(tonkTorni, tonk, new Vector(-10,0));
+        //Add(liitos);
+        //liitos.Softness = 0.5;
+        tonk.Add(tonkTorni);
+        //tonk.Position = tonk.Position;
+        //tonkTorni.Angle = tonkTorni.Angle*7;
     }
 
     void AsetaNappeimet()
@@ -45,8 +58,12 @@ public class TONK_BONK : PhysicsGame
         Keyboard.Listen(Key.A, ButtonState.Released, TonkKulma, "Liikuta Tankki", 0.0 );
         Keyboard.Listen(Key.A, ButtonState.Down,TonkKulma , "Liikuta Tankki", 1.5);
         Keyboard.Listen(Key.D, ButtonState.Released, TonkKulma, "Liikuta Tankki", 0.0 );
-        Keyboard.Listen(Key.D, ButtonState.Down,TonkKulma , "Liikuta Tankki", -1.5);}   
-     void Liiku (double kerroin) 
+        Keyboard.Listen(Key.D, ButtonState.Down,TonkKulma , "Liikuta Tankki", -1.5);
+        Keyboard.Listen(Key.Left, ButtonState.Down, TonkTornikulma, "Liikuta Tykki", 1.0);
+        Keyboard.Listen(Key.Left, ButtonState.Released, TonkTornikulma, "Liikuta Tykki", 0.0);
+    }   
+   
+    void Liiku (double kerroin) 
      {
          tonk.Velocity = tonk.Angle.GetVector() * kerroin;
      }
@@ -57,6 +74,15 @@ public class TONK_BONK : PhysicsGame
          
      }
      
-     
-     
+     void TonkTornikulma(double nopeus )
+     {
+         tonkTorni.AngularVelocity = nopeus;
+         
+     }
+
+     void Ampuminen()
+     {
+         
+         
+     }
 }
