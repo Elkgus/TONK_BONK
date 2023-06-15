@@ -9,8 +9,10 @@ namespace TONK_BONK;
 
 public class TONK_BONK : PhysicsGame
 {
+    public Image TykkiKuula = LoadImage("panos");
     public Image TonkRuumis = LoadImage("TONK_BONK_chassis3");
     public Image tonkTorniKuva = LoadImage("TONK_torni2.png");
+    public static Cannon Tykki;
     private PhysicsObject tonk;
     private PhysicsObject tonkTorni;
     private AxleJoint torninLiitos;
@@ -24,8 +26,9 @@ public class TONK_BONK : PhysicsGame
     }
 
     void Luokentta()
-    {Level.BackgroundColor = Color.Blue;
-    
+    { 
+        Level.BackgroundColor = Color.Blue;
+        Level.CreateBorders();
     }
 
     void LuoTONK()
@@ -43,16 +46,14 @@ public class TONK_BONK : PhysicsGame
         tonkTorni.AddCollisionIgnoreGroup(1);
         
         Add(tonkTorni,1);
-        //tonkTorni.IgnoresCollisionResponse = true;
-        //WheelJoint liitos = new WheelJoint(tonk, tonkTorni);
-        //Add(liitos);
         torninLiitos = new AxleJoint(tonk, tonkTorni, new Vector(10,0));
         torninLiitos.DampingRatio = 25;
         torninLiitos.Softness = 90;
         Add(torninLiitos);
-        //tonk.Add(tonkTorni);
-        // tonk.Position = tonk.Position;
-        //tonkTorni.Angle = tonkTorni.Angle*7;
+        Tykki = new Cannon(40,20);
+        Tykki.X = 0;
+        Tykki.IsVisible = false;
+        tonkTorni.Add(Tykki);
     }
 
     void AsetaNappeimet()
@@ -70,6 +71,7 @@ public class TONK_BONK : PhysicsGame
         Keyboard.Listen(Key.Left, ButtonState.Released, TonkTornikulma, "Liikuta Tykki", 0.0, false);
         Keyboard.Listen(Key.Right, ButtonState.Down, TonkTornikulma, "Liikuta Tykki", -1.0, true);
         Keyboard.Listen(Key.Right, ButtonState.Released, TonkTornikulma, "Liikuta Tykki", 0.0, false);
+        Keyboard.Listen(Key.Space, ButtonState.Down,Ammutykki, "ampua", Tykki);
     }   
    
     void Liiku (double kerroin) 
@@ -88,6 +90,7 @@ public class TONK_BONK : PhysicsGame
          {
              tonkTorni.Stop();   
          } 
+         
      }
      
      void TonkTornikulma(double nopeus, bool canRotate )
@@ -101,9 +104,13 @@ public class TONK_BONK : PhysicsGame
              
      }
 
-     void Ampuminen()
+     void Ammutykki(Cannon ase)
      {
-         
-         
+         PhysicsObject kuula = ase.Shoot();
+         if (kuula != null)
+         {
+             kuula.Size *= 1;
+             kuula.Image = TykkiKuula;
+         }
      }
 }
