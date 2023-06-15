@@ -44,6 +44,8 @@ public class TONK_BONK : PhysicsGame
         tonkTorni.Image = tonkTorniKuva;
         tonkTorni.Mass = 1;
         tonkTorni.AddCollisionIgnoreGroup(1);
+        tonk.IgnoresPhysicsLogics = true;
+        tonkTorni.IgnoresCollisionResponse = true;
         
         Add(tonkTorni,1);
         torninLiitos = new AxleJoint(tonk, tonkTorni, new Vector(10,0));
@@ -51,7 +53,7 @@ public class TONK_BONK : PhysicsGame
         torninLiitos.Softness = 90;
         Add(torninLiitos);
         Tykki = new Cannon(40,20);
-        Tykki.X = 0;
+        Tykki.X = -80;
         Tykki.IsVisible = false;
         tonkTorni.Add(Tykki);
     }
@@ -109,8 +111,9 @@ public class TONK_BONK : PhysicsGame
          PhysicsObject kuula = ase.Shoot();
          if (kuula != null)
          {
-             kuula.Size *= 1;
              kuula.Image = TykkiKuula;
+             kuula.Width *=1.7 ;
+             kuula.Height *=1;
          }
      }
 }
