@@ -13,6 +13,7 @@ public class TONK_BONK : PhysicsGame
     public Image tonkTorniKuva = LoadImage("TONK_torni2.png");
     private PhysicsObject tonk;
     private PhysicsObject tonkTorni;
+    private AxleJoint torninLiitos;
     private Vector TONK_position = new Vector(80, 40);
     public override void Begin()
     { 
@@ -32,19 +33,25 @@ public class TONK_BONK : PhysicsGame
         tonk = new PhysicsObject( 160, 80);
         tonk.Angle = Angle.FromDegrees(0.0);
         tonk.Image = TonkRuumis;
+        tonk.Mass = 100;
+        tonk.AddCollisionIgnoreGroup(1);
         Add(tonk);
          
         tonkTorni = new PhysicsObject(240, 60);
         tonkTorni.Image = tonkTorniKuva;
+        tonkTorni.Mass = 1;
+        tonkTorni.AddCollisionIgnoreGroup(1);
+        
         Add(tonkTorni,1);
-        tonkTorni.IgnoresCollisionResponse = true;
+        //tonkTorni.IgnoresCollisionResponse = true;
         //WheelJoint liitos = new WheelJoint(tonk, tonkTorni);
         //Add(liitos);
-        //AxleJoint liitos = new AxleJoint(tonkTorni, tonk, new Vector(-10,0));
-        //Add(liitos);
-        //liitos.Softness = 0.5;
-        tonk.Add(tonkTorni);
-        //tonk.Position = tonk.Position;
+        torninLiitos = new AxleJoint(tonk, tonkTorni, new Vector(10,0));
+        torninLiitos.DampingRatio = 25;
+        torninLiitos.Softness = 90;
+        Add(torninLiitos);
+        //tonk.Add(tonkTorni);
+        // tonk.Position = tonk.Position;
         //tonkTorni.Angle = tonkTorni.Angle*7;
     }
 
@@ -56,28 +63,42 @@ public class TONK_BONK : PhysicsGame
         Keyboard.Listen(Key.S, ButtonState.Down, Liiku, "Liikuta Tankki", -60.0);
         Keyboard.Listen(Key.S, ButtonState.Released, Liiku, "Liikuta Tankki", 0.0 );
         Keyboard.Listen(Key.A, ButtonState.Released, TonkKulma, "Liikuta Tankki", 0.0 );
-        Keyboard.Listen(Key.A, ButtonState.Down,TonkKulma , "Liikuta Tankki", 1.5);
+        Keyboard.Listen(Key.A, ButtonState.Down,TonkKulma , "Liikuta Tankki", .7);
         Keyboard.Listen(Key.D, ButtonState.Released, TonkKulma, "Liikuta Tankki", 0.0 );
-        Keyboard.Listen(Key.D, ButtonState.Down,TonkKulma , "Liikuta Tankki", -1.5);
-        Keyboard.Listen(Key.Left, ButtonState.Down, TonkTornikulma, "Liikuta Tykki", 1.0);
-        Keyboard.Listen(Key.Left, ButtonState.Released, TonkTornikulma, "Liikuta Tykki", 0.0);
+        Keyboard.Listen(Key.D, ButtonState.Down,TonkKulma , "Liikuta Tankki", -.7);
+        Keyboard.Listen(Key.Left, ButtonState.Down, TonkTornikulma, "Liikuta Tykki", 1.0, true);
+        Keyboard.Listen(Key.Left, ButtonState.Released, TonkTornikulma, "Liikuta Tykki", 0.0, false);
+        Keyboard.Listen(Key.Right, ButtonState.Down, TonkTornikulma, "Liikuta Tykki", -1.0, true);
+        Keyboard.Listen(Key.Right, ButtonState.Released, TonkTornikulma, "Liikuta Tykki", 0.0, false);
     }   
    
     void Liiku (double kerroin) 
      {
          tonk.Velocity = tonk.Angle.GetVector() * kerroin;
+         if (kerroin == 0)
+         {
+             tonkTorni.Stop();   
+         } 
      }
 
      void TonkKulma(double nopeus )
      {
          tonk.AngularVelocity = nopeus;
-         
+         if (nopeus == 0)
+         {
+             tonkTorni.Stop();   
+         } 
      }
      
-     void TonkTornikulma(double nopeus )
+     void TonkTornikulma(double nopeus, bool canRotate )
      {
+         tonkTorni.CanRotate = canRotate;
          tonkTorni.AngularVelocity = nopeus;
-         
+         if (!canRotate)
+         {
+          tonkTorni.Stop();   
+         } 
+             
      }
 
      void Ampuminen()
