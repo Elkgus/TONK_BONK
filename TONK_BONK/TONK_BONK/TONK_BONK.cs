@@ -25,7 +25,7 @@ public class TONK_BONK : PhysicsGame
         LuoTONK(); 
         Luokentta();
         AsetaNappeimet();
-           
+        //LuopanssariPahis();   
     }
 
     void Luokentta()
@@ -63,7 +63,7 @@ public class TONK_BONK : PhysicsGame
         Tykki = new Cannon(40,20);
         Tykki.X =-80 ;
         Tykki.IsVisible = false;
-        Tykki.Power.Value = 999999999;
+        Tykki.Power.Value = 10000;
         Tykki.Y = -300;
         tonkTorni.Add(Tykki);
     }
@@ -93,7 +93,7 @@ public class TONK_BONK : PhysicsGame
         Cannon panssariTykki = new Cannon(40,20);
         panssariTykki.X =-80 ;
         panssariTykki.IsVisible = false;
-        panssariTykki.Power.Value = 999999999;
+        panssariTykki.Power.Value = 500;
         panssariTykki.Y = 300;
         panssariTorni.Add(panssariTykki);
     }
