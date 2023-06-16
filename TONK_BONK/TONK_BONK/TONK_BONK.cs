@@ -6,14 +6,15 @@ using Jypeli.Controls;
 using Jypeli.Widgets;
 
 namespace TONK_BONK;
-
+// versio 1.0
 public class TONK_BONK : PhysicsGame
 {
     public Image TykkiKuula = LoadImage("panos");
     public Image TonkRuumis = LoadImage("TONK_BONK_chassis3");
     public Image tonkTorniKuva = LoadImage("TONK_torni2.png");
     public static Cannon Tykki;
-    private PhysicsObject tonk;
+    public double ruudunKoko = 5;
+    public PhysicsObject tonk;
     private PhysicsObject tonkTorni;
     private AxleJoint torninLiitos;
     private Vector TONK_position = new Vector(80, 40);
@@ -22,13 +23,16 @@ public class TONK_BONK : PhysicsGame
         LuoTONK(); 
         Luokentta();
         AsetaNappeimet();
-        
+           
     }
 
     void Luokentta()
     { 
         Level.BackgroundColor = Color.Blue;
         Level.CreateBorders();
+        TileMap tiles = TileMap.FromFile("Kentta1");
+        tiles.SetTileMethod('w',Luoseina);
+        tiles.Execute(40,40);
     }
 
     void LuoTONK()
@@ -39,7 +43,8 @@ public class TONK_BONK : PhysicsGame
         tonk.Mass = 100;
         tonk.AddCollisionIgnoreGroup(1);
         Add(tonk);
-         
+        ; 
+        
         tonkTorni = new PhysicsObject(240, 60);
         tonkTorni.Image = tonkTorniKuva;
         tonkTorni.Mass = 1;
@@ -53,8 +58,9 @@ public class TONK_BONK : PhysicsGame
         torninLiitos.Softness = 90;
         Add(torninLiitos);
         Tykki = new Cannon(40,20);
-        Tykki.X = -80;
+        Tykki.X =-80 ;
         Tykki.IsVisible = false;
+        Tykki.Power.Value = 999999999;
         tonkTorni.Add(Tykki);
     }
 
@@ -113,7 +119,20 @@ public class TONK_BONK : PhysicsGame
          {
              kuula.Image = TykkiKuula;
              kuula.Width *=1.7 ;
-             kuula.Height *=1;
+             kuula.Height *=1; ;
+             kuula.Tag = "panos";
+             kuula.MaximumLifetime = TimeSpan.FromSeconds(2.0);
          }
      }
+
+     void Luoseina(Vector paikka, double leveys, double korkeus)
+     {
+         PhysicsObject seina = new PhysicsObject(leveys ,korkeus);
+         seina.MakeStatic();
+         seina.Position = paikka;
+         AddCollisionHandler(seina,"panos", CollisionHandler.ExplodeBoth(100.5,true) );
+         Add(seina);
+     }
+
+     
 }

@@ -53,8 +53,8 @@ C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\obj\Debug\net6.0\TONK_BONK.dll
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\obj\Debug\net6.0\ref\TONK_BONK.dll
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\obj\Debug\net6.0\TONK_BONK.pdb
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\obj\Debug\net6.0\TONK_BONK.genruntimeconfig.cache
-C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\bin\Debug\net6.0\Content\TONK_BONK_chassis.png
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\bin\Debug\net6.0\Content\TONK_BONK_chassis3.png
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\bin\Debug\net6.0\Content\TONK_BONK_torni.png
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\bin\Debug\net6.0\Content\TONK_torni2.png
 C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\bin\Debug\net6.0\Content\Panos.png
+C:\MyTemp\TONK_BONK\TONK_BONK\TONK_BONK\bin\Debug\net6.0\Content\Kentta1.txt
